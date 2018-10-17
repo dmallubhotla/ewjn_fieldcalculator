@@ -1,0 +1,1 @@
+Calculates b field correction for spheres
