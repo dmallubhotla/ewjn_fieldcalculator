@@ -1,16 +1,11 @@
-all: repl
+all: install
 
 # Convenience targets
-.PHONY: install repl all mathematicaLocation
+.PHONY: install repl all installWL
 
 
-	
+
 install: installWL
-	poetry install
-
-	
-repl: $(ENV)
-	poetry run python -i
 
 installWL:
 	@$(eval MATHEMATICA_INSTALL_LOCATION=$(shell wolframscript -c 'FileNameJoin[{StringReplace[$$UserBaseDirectory, "\\" -> "/"], "Applications", "longskindepthewjn"}, OperatingSystem -> "Unix"]'))
