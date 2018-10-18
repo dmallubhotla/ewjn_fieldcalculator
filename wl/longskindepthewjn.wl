@@ -22,7 +22,9 @@ ClearAll["longskindepthewjn`*"];
 ClearAll["longskindepthewjn`Private`*"];
 
 unscaledJ::usage = "unscaledJ[aSource, region, zeroPoint, nHat] returns J[x,y,z] for some 3D region region without prefactors";
-unscaledBz::usage = "unscaledB[j, radius] returns the magnetic field without prefactors for a current j defined over cube bounded by radius r";
+unscaledBz::usage = "unscaledBz[j, radius] returns a function returning the magnetic field without prefactors in the z direction for a current j defined over cube bounded by radius r";
+unscaledBy::usage = "unscaledBy[j, radius] returns a function returning the magnetic field without prefactors in the y direction for a current j defined over cube bounded by radius r";
+unscaledBx::usage = "unscaledBx[j, radius] returns a function returning the magnetic field without prefactors in the x direction for a current j defined over cube bounded by radius r";
 
 
 Begin["`Private`"];
@@ -52,8 +54,6 @@ unscaledJ[aSource_, region_, zeroPoint_, nHat_] := Module[{f, gradFPlusAs, j},
 
 unscaledBz[j_, radius_] := Module[{jSafe, bz},
 	jSafe[x_, y_, z_] := Quiet[Check[j[x, y, z], {0, 0, 0}, InterpolatingFunction::femdmval], InterpolatingFunction::femdmval];
-	Print[jSafe[1, 0, 0]];
-	Print[jSafe[10, 0, 0]];
 	Print[TemplateApply[
 		StringTemplate["Creating bz with radius `1`"],
 		radius
@@ -64,6 +64,34 @@ unscaledBz[j_, radius_] := Module[{jSafe, bz},
 		WorkingPrecision -> 100
 	];
 	bz
+];
+
+unscaledBx[j_, radius_] := Module[{jSafe, bx},
+	jSafe[x_, y_, z_] := Quiet[Check[j[x, y, z], {0, 0, 0}, InterpolatingFunction::femdmval], InterpolatingFunction::femdmval];
+	Print[TemplateApply[
+		StringTemplate["Creating bx with radius `1`"],
+		radius
+	]];
+	bx[x_, y_, z_] := NIntegrate[
+		((jSafe[xp, yp, zp][[2]]*(z - zp)) - (jSafe[xp, yp, zp][[3]]*(y - yp)) )/(Norm[{x, y, z} - {xp, yp, zp}]^3),
+		{xp, -radius, radius}, {yp, -radius, radius}, {zp, -radius, radius},
+		WorkingPrecision -> 100
+	];
+	bx
+];
+
+unscaledBy[j_, radius_] := Module[{jSafe, by},
+	jSafe[x_, y_, z_] := Quiet[Check[j[x, y, z], {0, 0, 0}, InterpolatingFunction::femdmval], InterpolatingFunction::femdmval];
+	Print[TemplateApply[
+		StringTemplate["Creating bx with radius `1`"],
+		radius
+	]];
+	by[x_, y_, z_] := NIntegrate[
+		((jSafe[xp, yp, zp][[3]]*(x - xp)) - (jSafe[xp, yp, zp][[1]]*(z - zp)) )/(Norm[{x, y, z} - {xp, yp, zp}]^3),
+		{xp, -radius, radius}, {yp, -radius, radius}, {zp, -radius, radius},
+		WorkingPrecision -> 100
+	];
+	by
 ];
 
 End[]; (* `Private` *)
