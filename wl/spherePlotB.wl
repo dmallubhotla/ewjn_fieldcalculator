@@ -33,7 +33,6 @@ bXAlongDiagonalValues = Table[
 	{x, Quiet[bX[x, 0, x], {NIntegrate::slwcon, NIntegrate::eincr}]},
 	{x, 3`100, 10`100, 0.5`100}
 ];
-Print[bXAlongDiagonalValues];
 dipolePlotAlongDiagonal = Plot[expectedB[x, 0, x][[1]], {x, 2, 7}, PlotLabel -> "B_x along y=0, x=z"];
 bXAlongDiagonalValuesPlot = ListPlot[Legended[bXAlongDiagonalValues, "Numerical Integration"], PlotStyle -> Orange];
 Print["Exporting plot along diagonal"];
@@ -56,14 +55,9 @@ bZAlongDiagonalValues = Table[
 	{x, Quiet[bZ[x, 0, x], {NIntegrate::slwcon, NIntegrate::eincr}]},
 	{x, 3`100, 10`100, 0.5`100}
 ];
-Print[bZAlongDiagonalValues];
 dipolePlotAlongDiagonal = Plot[expectedB[x, 0, x][[3]], {x, 2, 7}, PlotLabel -> "B_z along y=0, x=z"];
 bZAlongDiagonalValuesPlot = ListPlot[Legended[bZAlongDiagonalValues, "Numerical Integration"], PlotStyle -> Orange];
 Print["Exporting plot along diagonal"];
 Export["BzAlongDiagonal.jpg", Show[ dipolePlotAlongDiagonal, bZAlongDiagonalValuesPlot], ImageResolution -> 150, ImageSize-> Automatic];
 
-Print[expectedB[2, 2, 2]];
-Print[Quiet[bX[2, 2, 2], {NIntegrate::slwcon, NIntegrate::eincr}]];
-Print[Quiet[bY[2, 2, 2], {NIntegrate::slwcon, NIntegrate::eincr}]];
-Print[Quiet[bZ[2, 2, 2], {NIntegrate::slwcon, NIntegrate::eincr}]];
 EndPackage[];

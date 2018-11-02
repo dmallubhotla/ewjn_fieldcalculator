@@ -54,10 +54,6 @@ unscaledJ[aSource_, region_, zeroPoint_, nHat_] := Module[{f, gradFPlusAs, j},
 
 unscaledBz[j_, radius_] := Module[{jSafe, bz},
 	jSafe[x_, y_, z_] := Quiet[Check[j[x, y, z], {0, 0, 0}, InterpolatingFunction::femdmval], InterpolatingFunction::femdmval];
-	Print[TemplateApply[
-		StringTemplate["Creating bz with radius `1`"],
-		radius
-	]];
 	bz[x_, y_, z_] := NIntegrate[
 		((jSafe[xp, yp, zp][[1]]*(y - yp)) - (jSafe[xp, yp, zp][[2]]*(x - xp)) )/(Norm[{x, y, z} - {xp, yp, zp}]^3),
 		{xp, -radius, radius}, {yp, -radius, radius}, {zp, -radius, radius},
@@ -68,10 +64,6 @@ unscaledBz[j_, radius_] := Module[{jSafe, bz},
 
 unscaledBx[j_, radius_] := Module[{jSafe, bx},
 	jSafe[x_, y_, z_] := Quiet[Check[j[x, y, z], {0, 0, 0}, InterpolatingFunction::femdmval], InterpolatingFunction::femdmval];
-	Print[TemplateApply[
-		StringTemplate["Creating bx with radius `1`"],
-		radius
-	]];
 	bx[x_, y_, z_] := NIntegrate[
 		((jSafe[xp, yp, zp][[2]]*(z - zp)) - (jSafe[xp, yp, zp][[3]]*(y - yp)) )/(Norm[{x, y, z} - {xp, yp, zp}]^3),
 		{xp, -radius, radius}, {yp, -radius, radius}, {zp, -radius, radius},
@@ -82,10 +74,6 @@ unscaledBx[j_, radius_] := Module[{jSafe, bx},
 
 unscaledBy[j_, radius_] := Module[{jSafe, by},
 	jSafe[x_, y_, z_] := Quiet[Check[j[x, y, z], {0, 0, 0}, InterpolatingFunction::femdmval], InterpolatingFunction::femdmval];
-	Print[TemplateApply[
-		StringTemplate["Creating bx with radius `1`"],
-		radius
-	]];
 	by[x_, y_, z_] := NIntegrate[
 		((jSafe[xp, yp, zp][[3]]*(x - xp)) - (jSafe[xp, yp, zp][[1]]*(z - zp)) )/(Norm[{x, y, z} - {xp, yp, zp}]^3),
 		{xp, -radius, radius}, {yp, -radius, radius}, {zp, -radius, radius},
