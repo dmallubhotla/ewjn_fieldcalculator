@@ -24,25 +24,32 @@ nHat[x_,y_,z_] := Normalize[{x,y,z}];
 aSource[x_,y_,z_] := {0, x, 0};
 zeroPointPred[x_,y_,z_] := y == -sphereRadius;
 j = unscaledJ[aSource, region, zeroPointPred, nHat];
-bZ = unscaledBz[j, sphereRadius];
-bY = unscaledBy[j, sphereRadius];
-bX = unscaledBx[j, sphereRadius];
-
-Print["Calculating bX along diagonal"];
+bZ = unscaledBz[j];
+bY = unscaledBy[j];
+bX = unscaledBx[j];
 bXAlongDiagonalValues = Table[
-	{x, Quiet[bX[x, 0, x], {NIntegrate::slwcon, NIntegrate::eincr}]},
-	{x, 3`100, 10`100, 0.5`100}
+	{x, bX[x, 0, x]},
+	{x, 3, 10, 1}
+];
+bXOldAlongDiagonalValues = Table[
+	{x, bXOld[x, 0, x]},
+	{x, 3, 10, 1}
+];
+bXRelativeErrorsAlongDiagonal = Map[
+	{#[[1]], Abs[(expectedB[#[[1]], 0, #[[1]]][[1]] - #[[2]]) / expectedB[#[[1]], 0, #[[1]]][[1]]]} &, bXAlongDiagonalValues
 ];
 dipolePlotAlongDiagonal = Plot[expectedB[x, 0, x][[1]], {x, 2, 7}, PlotLabel -> "B_x along y=0, x=z"];
 bXAlongDiagonalValuesPlot = ListPlot[Legended[bXAlongDiagonalValues, "Numerical Integration"], PlotStyle -> Orange];
-Print["Exporting plot along diagonal"];
-Export["BxAlongDiagonal.jpg", Show[ dipolePlotAlongDiagonal, bXAlongDiagonalValuesPlot], ImageResolution -> 150, ImageSize-> Automatic];
 
+bXAlongDiagonalValuesErrorPlot = ListPlot[Legended[bXRelativeErrorsAlongDiagonal, "New method"], PlotStyle -> Orange];
+Print["Exporting plot along diagonal"];
+Export["BxAlongDiagonalErrorsComparison.jpg", Show[ bXAlongDiagonalValuesErrorPlot, bXOldAlongDiagonalValuesErrorPlot], ImageResolution -> 150, ImageSize-> Automatic];
+Export["BxAlongDiagonal.jpg", Show[dipolePlotAlongDiagonal, bXAlongDiagonalValuesPlot], ImageResolution -> 150, ImageSize-> Automatic];
 
 Print["Calculating bZ along x axis"];
 
 bZAlongXAxisValues = Table[
-	{x, Quiet[bZ[x, 0, 0], {NIntegrate::slwcon, NIntegrate::eincr}]},
+	{x, bZ[x, 0, 0]},
 	{x, 4`100, 11`100, 0.5`100}
 ];
 dipolePlotAlongX = Plot[expectedB[x, 0, 0][[3]], {x, 3, 11}, PlotLabel -> "B_z along x-axis"];
@@ -52,7 +59,7 @@ Export["BzAlongXAxis.jpg", Show[ dipolePlotAlongX, bZAlongXAxisValuesPlot], Imag
 
 Print["Calculating bZ along diagonal"];
 bZAlongDiagonalValues = Table[
-	{x, Quiet[bZ[x, 0, x], {NIntegrate::slwcon, NIntegrate::eincr}]},
+	{x, bZ[x, 0, x]},
 	{x, 3`100, 10`100, 0.5`100}
 ];
 dipolePlotAlongDiagonal = Plot[expectedB[x, 0, x][[3]], {x, 2, 7}, PlotLabel -> "B_z along y=0, x=z"];
