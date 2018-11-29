@@ -4,3 +4,4 @@ dist
 *.idea
 *.jpg
 *pycache*
+*.pdf
