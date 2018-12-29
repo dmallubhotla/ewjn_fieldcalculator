@@ -1,3 +1,19 @@
+(* Populates the figures directory as ../figures *)
+figuresDirectory = FileNameJoin[{
+	ParentDirectory[
+		DirectoryName[
+			FileNameJoin[{
+				Directory[],
+				$ScriptCommandLine[[1]]
+			}]
+		]
+	], "figures"
+}];
+
+figure[filename_] := FileNameJoin[{figuresDirectory, filename}];
+
+Print[TemplateApply["Will output figures to directory ``", figuresDirectory]];
+
 (* Generated as follows: *)
 (* Table[{x, sphereDipoleField[1, 250, {x, 0, 0}, {0, 0 ,1}]["bZ"][x, 0, 0]}, {x, 2, 10, .5}] *)
 sphereDipoleFieldPoints = {{2.`, 2.6142124585971176`*^-8}, {2.5`,
@@ -43,7 +59,7 @@ plot1to5 = Show[Plot[expectedBz[x], {x, 1.5, 5} (*, PlotLabels \[Rule]
 		"Uniform source" -> sphereUniformFieldPoints,
 		"Dipole higher resolution source" -> sphereDipoleHigherMeshResolutionPoints |>], ImageSize -> Large];
 
-Export["plot1to5.jpg", plot1to5];
+Export[figure["plot1to5.jpg"], plot1to5];
 
 plot5to8 = Show[Plot[expectedBz[x], {x, 5, 8} (*, PlotLabels \[Rule]
   "Exact uniform field sphere" *)],
@@ -51,7 +67,7 @@ plot5to8 = Show[Plot[expectedBz[x], {x, 5, 8} (*, PlotLabels \[Rule]
 		"Uniform source" -> sphereUniformFieldPoints,
 		"Dipole higher resolution source" -> sphereDipoleHigherMeshResolutionPoints |>], ImageSize -> Large];
 
-Export["plot5to8.jpg", plot5to8];
+Export[figure["plot5to8.jpg"], plot5to8];
 
 plot8to10 = Show[Plot[expectedBz[x], {x, 8, 10} (*, PlotLabels \[Rule]
   "Exact uniform field sphere" *)],
@@ -60,7 +76,9 @@ plot8to10 = Show[Plot[expectedBz[x], {x, 8, 10} (*, PlotLabels \[Rule]
 		"Dipole higher resolution source" -> sphereDipoleHigherMeshResolutionPoints |>], ImageSize -> Large];
 
 
-Export["plot8to10.jpg", plot8to10];
+Export[figure["plot8to10.jpg"], plot8to10];
+
+Print["Now generating error plots..."];
 
 lowResolutionErrors = MapThread[{#1[[
 		1]], (#2[[2]] - #1[[2]]) / (#2[[2]]) } &, {sphereDipoleFieldPoints,
@@ -69,6 +87,6 @@ lowResolutionErrors = MapThread[{#1[[
 highResolutionErrors = MapThread[{#1[[
 		1]], (#2[[2]] - #1[[2]]) / (#2[[2]]) } &, {sphereDipoleHigherMeshResolutionPoints,
 	sphereUniformFieldPoints}];
-Print[highResolutionErrors];
+
 errorPlot = ListPlot[<| "low mesh resolution percent differences" -> lowResolutionErrors, "high mesh resolution percent differences" -> highResolutionErrors |>, ImageSize -> Large];
-Export["sphereDipolePercentDifferences.jpg", errorPlot];
+Export[figure["sphereDipolePercentDifferences.jpg"], errorPlot];
