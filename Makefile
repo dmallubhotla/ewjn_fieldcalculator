@@ -1,3 +1,5 @@
+WS = wolframscript -f
+
 all: install
 
 # Convenience targets
