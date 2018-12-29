@@ -21,20 +21,22 @@ Unprotect["longskindepthewjn`*"];
 ClearAll["longskindepthewjn`*"];
 ClearAll["longskindepthewjn`Private`*"];
 
+(*
 unscaledJ::usage = "unscaledJ[aSource, region, zeroPoint, nHat] returns { jFunc: J[x,y,z], mesh: ElementMesh } for some 3D region region without prefactors. Tricky parts for the arguments are described in comments";
 
 unscaledBz::usage = "unscaledBz[j] returns a function returning the magnetic field without prefactors in the z direction for a current j as an association containing jFunc and mesh";
 unscaledBy::usage = "unscaledBy[j] returns a function returning the magnetic field without prefactors in the y direction for a current j as an association containing jFunc and mesh";
 unscaledBx::usage = "unscaledBx[j] returns a function returning the magnetic field without prefactors in the x direction for a current j as an association containing jFunc and mesh";
-
+*)
 (* For convenience, these functions, when called, return a source potential function. *)
+(*
 getDipoleSourcePotential::usage = "getDipoleSourcePotential[{mx_, my_, mz_}, {rx_, ry_, rz_}] returns a function a[x, y, z] returning a triple representing A from a point dipole (mx, my, mz) source at (rx, ry, rz)";
 getUniformSourcePotential::usage = "getUniformSourcePotential[] returns a function a[x, y, z] returning a function a[x, y, z] representing a potential for a uniform magnetic field in the -z direction";
-
+*)
 (* Wrappers *)
 sphereUniformField::usage = "sphereUniformFieldCalc[sphereRadius_, skinDepth_, externalFieldStrength_] returns a calculation context for a sphere of a particular radius with a particular skin depth in a uniform field orientated in the -z direction.";
 sphereDipoleField::usage = "sphereUniformFieldCalc[sphereRadius_, skinDepth_, dipolePosition_, dipoleMoment_] returns a calculation context for a sphere of a particular radius with a particular skin depth in a dipole field.";
-sphereDipoleFieldHigherIntegrationOrder::usage = "Higher integration order for j calcs version of sphereDipoleField"
+sphereDipoleFieldHigherMeshResolution::usage = "Higher integration order for j calcs version of sphereDipoleField"
 cylinderUniformField::usage = "cylinderUniformField[cylinderRadius_, cylinderHeight_, skinDepth_, externalFieldStrength_]";
 cylinderDipoleField::usage = "cylinderDipoleField[cylinderRadius_, cylinderHeight_, skinDepth_, dipolePosition_, {mx_, my_, mz_}]";
 
@@ -60,14 +62,14 @@ solveForF3D[aSource_, region_, zeroPointPred_, nHat_] := NDSolveValue[{
 	DirichletCondition[f[x, y, z] == 0, zeroPointPred[x, y, z]]
 }, f, Element[{x, y, z}, region]];
 
-solveForF3DHIO[aSource_, region_, zeroPointPred_, nHat_] := NDSolveValue[{
+solveForF3DHIO[aSource_, region_, zeroPointPred_, nHat_, maxCellMeasure_ : 10000] := NDSolveValue[{
 	Laplacian[f[x, y, z], {x, y, z}] == NeumannValue[Dot[aSource[x, y, z], nHat[x, y, z]], True],
 	DirichletCondition[f[x, y, z] == 0, zeroPointPred[x, y, z]]
 }, f, Element[{x, y, z}, region], Method -> {
 		"FiniteElement",
 		"IntegrationOrder" -> 5,
 		"MeshOptions" -> {
-			"MaxCellMeasure" -> 1/10000
+			"MaxCellMeasure" -> 1/maxCellMeasure
 		}
 	}
 ];
@@ -93,8 +95,8 @@ unscaledJ[aSource_, region_, zeroPoint_, nHat_] := Module[{f, mesh, gradFPlusAs,
 	<| "jFunc" -> j, "mesh" -> mesh |>
 ];
 
-unscaledJHIO[aSource_, region_, zeroPoint_, nHat_] := Module[{f, mesh, gradFPlusAs, j},
-	f = solveForF3DHIO[aSource, region, zeroPoint, nHat];
+unscaledJHIO[aSource_, region_, zeroPoint_, nHat_, maxCellMeasure_ : 10000] := Module[{f, mesh, gradFPlusAs, j},
+	f = solveForF3DHIO[aSource, region, zeroPoint, nHat, maxCellMeasure];
 	mesh = f["ElementMesh"];
 	gradFPlusAs[x_, y_, z_] := Evaluate[D[f[x, y, z], {{x, y, z}}] + aSource[x, y, z]];
 	j[x_, y_, z_] = Through[
@@ -164,12 +166,12 @@ sphereDipoleField[sphereRadius_, skinDepth_, dipolePosition_, {mx_, my_, mz_}] :
 	<| "region" -> region, "current" -> j["jFunc"], "integrationMesh" -> j["mesh"], "bX" -> bX, "bY" -> bY, "bZ" -> bZ |>
 ];
 
-sphereDipoleFieldHigherIntegrationOrder[sphereRadius_, skinDepth_, dipolePosition_, {mx_, my_, mz_}] := Module[{region, nHat, aSource, zpp, j, bX, bY, bZ, uBx, uBy, uBz},
+sphereDipoleFieldHigherMeshResolution[sphereRadius_, skinDepth_, dipolePosition_, {mx_, my_, mz_}, maxCellMeasure_ : 10000] := Module[{region, nHat, aSource, zpp, j, bX, bY, bZ, uBx, uBy, uBz},
 	region = Ball[{0,0,0}, sphereRadius];
 	nHat[x_,y_,z_] := Normalize[{x,y,z}];
 	aSource = getDipoleSourcePotential[{mx, my, mz}, dipolePosition];
 	zpp[x_, y_, z_] := (x == 0 && y == 0 && z <= 0);
-	j = unscaledJHIO[aSource, region, zpp, nHat];
+	j = unscaledJHIO[aSource, region, zpp, nHat, maxCellMeasure];
 	uBx = unscaledBx[j];
 	uBy = unscaledBy[j];
 	uBz = unscaledBz[j];
