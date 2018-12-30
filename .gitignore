@@ -5,3 +5,10 @@ dist
 *.jpg
 *pycache*
 *.pdf
+
+*.aux
+*.log
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.toc
