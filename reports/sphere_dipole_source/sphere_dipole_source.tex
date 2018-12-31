@@ -11,18 +11,33 @@
 
 \begin{document}
 
-
 \graphicspath{{figures/}}
 
 \maketitle
 
-\section{Approximating using a dipole source}
+\section{Approximating using a dipole source}\label{sec:spheredipolesource}
+
+Three plots of $B_z(x, 0, 0)$ induced for a metal sphere wih skin depth $\delta$ for a uniform source potential as well
+as a dipole source potential, with dipole located at $(x, 0, 0)$.
+The uniform source potential is set so that for each $x$ it has the same field as the dipole source.
+Both are compared against the expected induced field for a metal sphere $B_z = \frac{1}{15 x^6 \delta^2}$.
+
 \begin{figure}[htp]
 	\centering
-	\includegraphics[width=10cm]{plot1to5}
-	\caption{A comparison of the expected ${B_z}$ with the program results for a uniform source, and a dipole source at two different mesh resolutions \label{fig:plotx1to5}}
+	\includegraphics[width=14cm]{plot1to5}
+	\caption{$B_z$ as a function of $x$, for small $x$ \label{fig:plotx1to5}}
 \end{figure}
 
-Figure \ref{fig:plotx1to5} 
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{plot5to8}
+	\caption{$B_z$ as a function of $x$, where dipole source approaches uniform source \label{fig:plotx5to8}}
+\end{figure}
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{plot8to10}
+	\caption{$B_z$ as a function of $x$, large $x$ \label{fig:plotx8to10}}
+\end{figure}
 
 \end{document}
