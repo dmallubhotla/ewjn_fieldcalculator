@@ -1,7 +1,9 @@
-all: sphere_dipole_source
+REPORTS = sphere_dipole_source cylinder_calc
 
-.PHONY: sphere_dipole_source
+all: $(REPORTS)
 
-sphere_dipole_source: 
+.PHONY: $(REPORTS)
+
+$(REPORTS):
 	$(MAKE) -C $@
 
