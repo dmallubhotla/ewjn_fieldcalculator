@@ -49,16 +49,3 @@ plot8to10 = Show[Plot[expectedBz[x], {x, 8, 10} (*, PlotLabels \[Rule]
 
 
 Export[figure["plot8to10.jpg"], plot8to10];
-
-Print["Now generating error plots..."];
-
-lowResolutionErrors = MapThread[{#1[[
-		1]], (#2[[2]] - #1[[2]]) / (#2[[2]]) } &, {sphereDipoleFieldPoints,
-	sphereUniformFieldPoints}];
-
-highResolutionErrors = MapThread[{#1[[
-		1]], (#2[[2]] - #1[[2]]) / (#2[[2]]) } &, {sphereDipoleHigherMeshResolutionPoints,
-	sphereUniformFieldPoints}];
-
-errorPlot = ListPlot[<| "low mesh resolution percent differences" -> lowResolutionErrors, "high mesh resolution percent differences" -> highResolutionErrors |>, ImageSize -> Large];
-Export[figure["bZAlongZsphereDipolePercentDifferences.jpg"], errorPlot];

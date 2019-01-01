@@ -6,8 +6,7 @@ BZ_FIGURE_FILENAMES = plot1to5.jpg
 BZ_ALONG_X_FIGURES = $(addprefix figures/bZAlongX, $(BZ_FIGURE_FILENAMES))
 BZ_ALONG_Z_FIGURES = $(addprefix figures/bZAlongZ, $(BZ_FIGURE_FILENAMES))
 
-#BZ_ALONG_X_CALCS_FILENAMES = sphereBZalongXDipoleLowRes.csv sphereBZalongXUniform.csv sphereBZalongXDipoleHighRes.csv
-BZ_ALONG_X_CALCS_FILENAMES = sphereBZalongXDipoleLowRes.csv
+BZ_ALONG_X_CALCS_FILENAMES = sphereBZalongXDipoleLowRes.csv sphereBZalongXUniform.csv sphereBZalongXDipoleHighRes.csv
 BZ_ALONG_X_CALCS = $(addprefix calc/, $(BZ_ALONG_X_CALCS_FILENAMES))
 
 all: ../output/sphere_dipole_source.pdf
@@ -20,7 +19,7 @@ clean:
 
 .PHONY: all clean
 
-sphere_dipole_source.pdf: sphere_dipole_source.tex $(BZ_ALONG_X_FIGURES) $(BZ_ALONG_Z_FIGURES)
+sphere_dipole_source.pdf: sphere_dipole_source.tex $(BZ_ALONG_X_FIGURES) $(BZ_ALONG_Z_FIGURES) figures/sphereDipoleSourceZXRatio.jpg
 	$(LATEXMK) sphere_dipole_source.tex
 
 # sphere dipole source rules
@@ -31,7 +30,7 @@ $(BZ_ALONG_X_FIGURES): scripts/sphereBZAlongXPlots.wls $(BZ_ALONG_X_CALCS)
 $(BZ_ALONG_X_CALCS): scripts/sphereBZAlongXCalcs.wls
 	$(WS) scripts/sphereBZAlongXCalcs.wls
 
-$(BZ_ALONG_Z_FIGURES): scripts/sphereBZAlongZPlots.wls calc/sphereBZDipoleHighRes.csv calc/sphereBZalongZUniform.csv
+$(BZ_ALONG_Z_FIGURES): scripts/sphereBZAlongZPlots.wls calc/sphereBZalongZDipoleHighRes.csv calc/sphereBZalongZUniform.csv
 	$(WS) scripts/sphereBZAlongZPlots.wls
 
 calc/sphereBZalongZUniform.csv: scripts/sphereBZalongZUniformCalc.wls
@@ -39,3 +38,6 @@ calc/sphereBZalongZUniform.csv: scripts/sphereBZalongZUniformCalc.wls
 
 calc/sphereBZalongZDipoleHighRes.csv: scripts/sphereBZAlongZDipoleHighResCalc.wls
 	$(WS) scripts/sphereBZalongZDipoleHighResCalc.wls
+
+figures/sphereDipoleSourceZXRatio.jpg: scripts/sphereAnisotropyPlotter.wls calc/sphereBZalongZDipoleHighRes.csv calc/sphereBZalongXDipoleHighRes.csv
+	$(WS) scripts/sphereAnisotropyPlotter.wls
