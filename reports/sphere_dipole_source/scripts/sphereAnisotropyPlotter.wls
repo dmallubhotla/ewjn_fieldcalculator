@@ -21,4 +21,4 @@ zxRatio = MapThread[
 ];
 
 zxRatioPlot = ListPlot[zxRatio, PlotRange -> {{2, 10}, {0, 6}}, ImageSize -> Large];
-Export[figure["sphereDipoleSourceZXRatio.jpg"], zxRatioPlot];
+Export[figure["sphereDipoleSourceZXRatio.jpg"], zxRatioPlot, ImageResolution -> 1200];

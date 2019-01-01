@@ -31,7 +31,7 @@ plot1to5 = Show[Plot[expectedBz[x], {x, 1.5, 5} (*, PlotLabels \[Rule]
 		"Uniform source" -> sphereUniformFieldPoints,
 		"Dipole source" -> sphereDipoleHigherMeshResolutionPoints |>], ImageSize -> Large];
 
-Export[figure["plot1to5.jpg"], plot1to5];
+Export[figure["plot1to5.jpg"], plot1to5, ImageResolution -> 1200];
 
 plot5to8 = Show[Plot[expectedBz[x], {x, 5, 8} (*, PlotLabels \[Rule]
   "Exact uniform field sphere" *)],
@@ -39,7 +39,7 @@ plot5to8 = Show[Plot[expectedBz[x], {x, 5, 8} (*, PlotLabels \[Rule]
 		"Uniform source" -> sphereUniformFieldPoints,
 		"Dipole source" -> sphereDipoleHigherMeshResolutionPoints |>], ImageSize -> Large];
 
-Export[figure["plot5to8.jpg"], plot5to8];
+Export[figure["plot5to8.jpg"], plot5to8, ImageResolution -> 1200];
 
 plot8to10 = Show[Plot[expectedBz[x], {x, 8, 10} (*, PlotLabels \[Rule]
   "Exact uniform field sphere" *)],
@@ -48,4 +48,4 @@ plot8to10 = Show[Plot[expectedBz[x], {x, 8, 10} (*, PlotLabels \[Rule]
 		"Dipole source" -> sphereDipoleHigherMeshResolutionPoints |>], ImageSize -> Large];
 
 
-Export[figure["plot8to10.jpg"], plot8to10];
+Export[figure["plot8to10.jpg"], plot8to10, ImageResolution -> 1200];
