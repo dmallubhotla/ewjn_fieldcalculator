@@ -3,6 +3,7 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{physics}
 \usepackage[plain]{fancyref}
 
 \title{Long Skin Depth spherical metal values}
@@ -50,5 +51,16 @@ increasing the mesh resolution reduces the error by quite a bit.
 In the large $x$ region in \fref{fig:bZZplotx8to10}, I think precision errors are a more noticeable contributor to the
 error, (which might also explain why the result is calculated to be negative).
 
+I also calculated the plots for $B_z(0, 0, z)$ along the $z-$axis, in order to determine both the anisotropy and to
+make sure that the problem was correct for other angles.
+The uniform source remained consistent, and the calculation for a dipole source gave the expected ratio of $4$,
+as graphed in \fref{fig:dipoleSourceAnisotropy}. (I'm guessing that the discrepancy at larger distances is again due to
+the same precision errors that threw off the graphs earlier at larger distances).
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{sphereDipoleSourceZXRatio}
+	\caption{$\flatfrac{B_z(0, 0, z)}{B_z(x, 0, 0)}$ \label{fig:dipoleSourceAnisotropy}}
+\end{figure}
 
 \end{document}
