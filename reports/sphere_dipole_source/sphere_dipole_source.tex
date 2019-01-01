@@ -27,28 +27,28 @@ Both are compared against the expected induced field for a metal sphere $B_z = \
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=14cm]{bZAlongXplot1to5}
-	\caption{$B_z$ as a function of $x$, for small $x$ \label{fig:bZZplotx1to5}}
+	\caption{$B_z(x, 0, 0)$ for small $x$ \label{fig:bZXplotx1to5}}
 \end{figure}
 
-For small $x$, as shown in \fref{fig:bZZplotx1to5}, the differences between the dipole source and the uniform source are
+For small $x$, as shown in \fref{fig:bZXplotx1to5}, the differences between the dipole source and the uniform source are
 apparent.
 
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=14cm]{bZAlongXplot5to8}
-	\caption{$B_z$ as a function of $x$, where dipole source approaches uniform source \label{fig:bZZplotx5to8}}
+	\caption{$B_z(x, 0, 0)$, where dipole source approaches uniform source \label{fig:bZXplotx5to8}}
 \end{figure}
 
-In the regime shown in \fref{fig:bZZplotx5to8} the dipole source effectively acts as a uniform source;
+In the regime shown in \fref{fig:bZXplotx5to8} the dipole source effectively acts as a uniform source;
 increasing the mesh resolution reduces the error by quite a bit.
 
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=14cm]{bZAlongXplot8to10}
-	\caption{$B_z$ as a function of $x$, large $x$ \label{fig:bZZplotx8to10}}
+	\caption{$B_z(x, 0, 0)$, large $x$ \label{fig:bZXplotx8to10}}
 \end{figure}
 
-In the large $x$ region in \fref{fig:bZZplotx8to10}, I think precision errors are a more noticeable contributor to the
+In the large $x$ region in \fref{fig:bZXplotx8to10}, I think precision errors are a more noticeable contributor to the
 error, (which might also explain why the result is calculated to be negative).
 
 I also calculated the plots for $B_z(0, 0, z)$ along the $z-$axis, in order to determine both the anisotropy and to
@@ -61,6 +61,27 @@ the same precision errors that threw off the graphs earlier at larger distances)
 	\centering
 	\includegraphics[width=14cm]{sphereDipoleSourceZXRatio}
 	\caption{$\flatfrac{B_z(0, 0, z)}{B_z(x, 0, 0)}$ \label{fig:dipoleSourceAnisotropy}}
+\end{figure}
+
+Figures \ref{fig:bZZplotx1to5}, \ref{fig:bZZplotx5to8} and \ref{fig:bZZplotx8to10} are all plotted with the dipole
+source calculated on a high resolution mesh.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{bZAlongZplot1to5}
+	\caption{$B_z(0, 0, z)$ for small $x$ \label{fig:bZZplotx1to5}}
+\end{figure}
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{bZAlongZplot5to8}
+	\caption{$B_z(0, 0, z)$, where dipole source approaches uniform source \label{fig:bZZplotx5to8}}
+\end{figure}
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=14cm]{bZAlongZplot8to10}
+	\caption{$B_z(0, 0, z)$, large $x$ \label{fig:bZZplotx8to10}}
 \end{figure}
 
 \end{document}
