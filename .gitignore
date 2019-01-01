@@ -12,3 +12,5 @@ dist
 *.fls
 *.synctex.gz
 *.toc
+
+calc/
