@@ -1,4 +1,4 @@
-all: reports
+all: reports install
 	@echo "Done."
 
 # Convenience targets
