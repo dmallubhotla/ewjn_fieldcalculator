@@ -21,18 +21,18 @@ Unprotect["longskindepthewjn`*"];
 ClearAll["longskindepthewjn`*"];
 ClearAll["longskindepthewjn`Private`*"];
 
-(*
+
 unscaledJ::usage = "unscaledJ[aSource, region, zeroPoint, nHat] returns { jFunc: J[x,y,z], mesh: ElementMesh } for some 3D region region without prefactors. Tricky parts for the arguments are described in comments";
 
 unscaledBz::usage = "unscaledBz[j] returns a function returning the magnetic field without prefactors in the z direction for a current j as an association containing jFunc and mesh";
 unscaledBy::usage = "unscaledBy[j] returns a function returning the magnetic field without prefactors in the y direction for a current j as an association containing jFunc and mesh";
 unscaledBx::usage = "unscaledBx[j] returns a function returning the magnetic field without prefactors in the x direction for a current j as an association containing jFunc and mesh";
-*)
+
 (* For convenience, these functions, when called, return a source potential function. *)
-(*
+
 getDipoleSourcePotential::usage = "getDipoleSourcePotential[{mx_, my_, mz_}, {rx_, ry_, rz_}] returns a function a[x, y, z] returning a triple representing A from a point dipole (mx, my, mz) source at (rx, ry, rz)";
 getUniformSourcePotential::usage = "getUniformSourcePotential[] returns a function a[x, y, z] returning a function a[x, y, z] representing a potential for a uniform magnetic field in the -z direction";
-*)
+
 (* Wrappers *)
 sphereUniformField::usage = "sphereUniformFieldCalc[sphereRadius_, skinDepth_, externalFieldStrength_] returns a calculation context for a sphere of a particular radius with a particular skin depth in a uniform field orientated in the -z direction.";
 sphereDipoleField::usage = "sphereUniformFieldCalc[sphereRadius_, skinDepth_, dipolePosition_, dipoleMoment_] returns a calculation context for a sphere of a particular radius with a particular skin depth in a dipole field.";
