@@ -23,6 +23,7 @@ ClearAll["longskindepthewjn`Private`*"];
 
 
 unscaledJ::usage = "unscaledJ[aSource, region, zeroPoint, nHat] returns { jFunc: J[x,y,z], mesh: ElementMesh } for some 3D region region without prefactors. Tricky parts for the arguments are described in comments";
+unscaledJHIO::usage = "same as unscaledJ";
 
 unscaledBz::usage = "unscaledBz[j] returns a function returning the magnetic field without prefactors in the z direction for a current j as an association containing jFunc and mesh";
 unscaledBy::usage = "unscaledBy[j] returns a function returning the magnetic field without prefactors in the y direction for a current j as an association containing jFunc and mesh";
@@ -67,7 +68,7 @@ solveForF3DHIO[aSource_, region_, zeroPointPred_, nHat_, maxCellMeasure_ : 10000
 	DirichletCondition[f[x, y, z] == 0, zeroPointPred[x, y, z]]
 }, f, Element[{x, y, z}, region], Method -> {
 		"FiniteElement",
-		"IntegrationOrder" -> 5,
+		(*"IntegrationOrder" -> 5,*)
 		"MeshOptions" -> {
 			"MaxCellMeasure" -> 1/maxCellMeasure
 		}
@@ -213,7 +214,7 @@ cylinderDipoleField[cylinderRadius_, cylinderHeight_, skinDepth_, dipolePosition
 	};
 	aSource = getDipoleSourcePotential[{mx, my, mz}, dipolePosition];
 	zpp[x_, y_, z_] := (x == 0 && y == 0 && z <= 0);
-	j = unscaledJ[aSource, region, zpp, nHat];
+	j = unscaledJHIO[aSource, region, zpp, nHat];
 	uBx = unscaledBx[j];
 	uBy = unscaledBy[j];
 	uBz = unscaledBz[j];
